@@ -1,4 +1,4 @@
-# 🌟 Om Sudhamsh's Personal Portfolio Website 🌟
+# 🌟 My Personal Portfolio Website 🌟
 
 Welcome to the repository of my **Personal Portfolio Website**! 🎉 This project showcases my journey, skills, and projects, all wrapped in a sleek, responsive design. Explore, get inspired, and connect with me! 🚀
 
