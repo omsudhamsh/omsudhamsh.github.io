@@ -28,8 +28,3 @@ Check out the live version of my portfolio here:
 - **HTML5**: For semantic structure and content.  
 - **CSS3**: For styling and animations.  
 - **GitHub Pages**: To host the portfolio online.  
-
----
-
-## 📂 Project Structure
-
