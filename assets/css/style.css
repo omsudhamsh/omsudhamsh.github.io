@@ -1030,6 +1030,7 @@ main {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  gap: 20px;
 }
 
 .resume-button {
@@ -1156,7 +1157,7 @@ main {
   #CONTACT
 \*-----------------------------------*/
 
-.mapbox {
+/* .mapbox {
   position: relative;
   height: 250px;
   width: 100%;
@@ -1173,7 +1174,7 @@ main {
   height: 100%;
   border: none;
   filter: grayscale(1) invert(1);
-}
+} */
 
 .contact-form { margin-bottom: 10px; }
 
@@ -1248,7 +1249,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 .form-btn:disabled {
   opacity: 0.7;
-  cursor: not-allowed;
+  cursor: pointer;
 }
 
 .form-btn:disabled:hover { background: var(--border-gradient-onyx); }

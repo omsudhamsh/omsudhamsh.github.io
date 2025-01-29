@@ -179,3 +179,53 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+// ///////////////////////////////////
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".form");
+  const inputs = document.querySelectorAll("[data-form-input]");
+  const submitBtn = document.querySelector("[data-form-btn]");
+
+  // Enable the button when all fields are filled
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      submitBtn.disabled = ![...inputs].every(input => input.value.trim() !== "");
+    });
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default page reload
+
+    // Get input values
+    const fullName = form.fullname.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if (!fullName || !email || !message) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    // Disable button to prevent multiple submissions
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span>Sending...</span>`;
+
+    // Send email via EmailJS
+    emailjs.send("service_pbqy81z", "template_jhu9dgt", {
+      from_name: fullName,
+      from_email: email,
+      message: message,
+    }, "GY1fgrTq_n7o4yQG7")
+    .then(response => {
+      alert("Message sent successfully!");
+      form.reset(); // Clear form
+      submitBtn.innerHTML = `<span>Send Message</span>`;
+    })
+    .catch(error => {
+      console.error("EmailJS Error:", error);
+      alert("Failed to send message. Please try again later.");
+      submitBtn.disabled = false; // Re-enable button
+      submitBtn.innerHTML = `<span>Send Message</span>`;
+    });
+  });
+});
