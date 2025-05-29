@@ -121,19 +121,43 @@ for (let i = 0; i < filterBtn.length; i++) {
 
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
-const pages = ["about", "resume", "portfolio", "blog", "contact", "socials"];
+const pages = ["about", "resume", "projects", "gallery", "blog", "socials"];
 
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i]) {
-        document.querySelector(`[data-page="${pages[i]}"]`).classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        document.querySelector(`[data-page="${pages[i]}"]`).classList.remove("active");
-        navigationLinks[i].classList.remove("active");
+    const buttonText = this.innerHTML.toLowerCase();
+    
+    // Special handling for Blog / NL button
+    if (buttonText.includes("blog")) {
+      // First activate the blog section
+      for (let i = 0; i < pages.length; i++) {
+        if (pages[i] === "blog") {
+          document.querySelector(`[data-page="${pages[i]}"]`).classList.add("active");
+          navigationLinks[i].classList.add("active");
+          window.scrollTo(0, 0);
+        } else {
+          document.querySelector(`[data-page="${pages[i]}"]`).classList.remove("active");
+          navigationLinks[i].classList.remove("active");
+        }
+      }
+      
+      // Then navigate to the latest blog post
+      const latestBlogPost = document.querySelector('.blog-post-item > a');
+      if (latestBlogPost) {
+        window.open(latestBlogPost.href, '_blank');
+      }
+    } else {
+      // Handle other navigation buttons normally
+      for (let i = 0; i < pages.length; i++) {
+        if (buttonText.includes(pages[i])) {
+          document.querySelector(`[data-page="${pages[i]}"]`).classList.add("active");
+          navigationLinks[i].classList.add("active");
+          window.scrollTo(0, 0);
+        } else {
+          document.querySelector(`[data-page="${pages[i]}"]`).classList.remove("active");
+          navigationLinks[i].classList.remove("active");
+        }
       }
     }
   });
@@ -186,4 +210,25 @@ document.addEventListener("DOMContentLoaded", function () {
       submitBtn.innerHTML = `<span>Send Message</span>`;
     });
   });
+});
+
+// Initialize projects and gallery sections
+function initializeProjects() {
+  const projectsGrid = document.querySelector('.projects-grid');
+  if (projectsGrid) {
+    // Add your project cards here
+  }
+}
+
+function initializeGallery() {
+  const galleryGrid = document.querySelector('.gallery-grid');
+  if (galleryGrid) {
+    // Add your gallery items here
+  }
+}
+
+// Initialize sections when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  initializeProjects();
+  initializeGallery();
 });
