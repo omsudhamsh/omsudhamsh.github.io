@@ -43,7 +43,7 @@
       - #SIDEBAR
     -->
 
-    <aside class="sidebar" data-sidebar>
+    <aside class="sidebar clean-sidebar" data-sidebar>
       <div class="sidebar-info">
         <figure class="avatar-box">
           <img src="./assets/images/my-avatar.png" alt="Om Sudhamsh" width="80">
@@ -51,7 +51,9 @@
 
         <div class="info-content">
           <h1 class="name" title="Om Sudhamsh">Om Sudhamsh</h1>
-          <p class="title">Code & Canvas</p>
+          <p class="title">
+            <a href="https://whatsapp.com/channel/0029Vb7dohRLI8YdaiqwVa3A" style="text-decoration: none; color: inherit; cursor: pointer;"><b>Draftr.</b></a>
+          </p>
         </div>
 
         <button class="info_more-btn" data-sidebar-btn>
@@ -77,7 +79,7 @@
 
         <div class="separator"></div>
 
-        <ul class="social-list">
+        <ul class="social-list clean-social-list">
           <li class="social-item">
             <a href="https://www.linkedin.com/in/omsudhamsh/" class="social-link" title="LinkedIn">
               <i class="fa-brands fa-linkedin-in"></i>
@@ -161,9 +163,29 @@
 
         <section class="about-text">
           <p>
-            I'm <b>Om Sudhamsh</b>, a second-year Computer Science and Engineering student. 
-            I focus on AI and ML, and I enjoy designing and building things with JavaScript, ReactJS, and Java. 
-            I'm working on projects that involve using these technologies to create interactive and smart web applications.
+            I’m <strong class="animated-name">Om Sudhamsh</strong>, a pre-final year <b>B.Tech</b> student specializing in <b>AI & Machine Learning</b>.<br><br>
+            I’m passionate about building <b>interactive</b>, <b>user-friendly</b> web applications and exploring the potential of <b>AI</b> in real-world problem-solving.<br><br>
+            With hands-on experience in <b>Java</b>, <b>JavaScript</b>, <b>ReactJS</b>, <b>Python</b>, and <b>machine learning</b> concepts, I’m constantly learning, experimenting, and creating projects that blend <b>functionality</b> with a <b>clean user experience</b>.
+            <style>
+              .animated-name {
+                font-weight: bold;
+                background: linear-gradient(90deg, #FFD700, #FF8C00, #FF0080);
+                background-size: 200% 200%;
+                color: transparent;
+                -webkit-background-clip: text;
+                background-clip: text;
+                animation: nameGradient 2.5s ease-in-out infinite alternate;
+                transition: text-shadow 0.3s;
+                text-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+              }
+              @keyframes nameGradient {
+                0% { background-position: 0% 50%; }
+                100% { background-position: 100% 50%; }
+              }
+              .animated-name:hover {
+                text-shadow: 0 4px 16px #FF0080;
+              }
+            </style>
           </p>
 
           <!-- <p>
@@ -573,6 +595,13 @@
 
         <section class="gallery-grid">
           <!-- Gallery items will be added here -->
+           <div class="gallery-item">
+            <img src="./assets/images/gal-4.jpg" alt="| Microsoft" class="gallery-img">
+            <div class="gallery-overlay">
+              <h3 class="gallery-title">| AI Day</h3>
+            </div>
+          </div>
+
           <div class="gallery-item">
             <img src="./assets/images/gal-1.jpg" alt="| Runner Up" class="gallery-img">
             <div class="gallery-overlay">
@@ -605,8 +634,14 @@
           <h2 class="h2 article-title">Blog</h2>
         </header>
 
-        <section class="blog-posts">
+        <!-- Blog Tabs -->
+        <div class="blog-tabs">
+          <button class="blog-tab active" data-tab="medium">Medium</button>
+          <button class="blog-tab" data-tab="newsletters">NewsLetters</button>
+        </div>
 
+        <!-- Tab Content: Medium -->
+        <section class="blog-posts blog-tab-content active" data-tab-content="medium">
           <ul class="blog-posts-list">
 
             <li class="blog-post-item">
@@ -847,14 +882,216 @@
             </li>
 
           </ul>
-
         </section>
+
+        <!-- Tab Content: NewsLetters -->
+        <section class="blog-posts blog-tab-content" data-tab-content="newsletters">
+          <ul class="blog-posts-list">
+            <!-- ...same blog cards as above for now... -->
+             <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/why-does-chatgpt-give-you-options-its-smarter-than-think-padma-vxylc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd7.png" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">July 19, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>Why <b>Two</b> replies?</strong> Learn </h3>
+
+                  <p class="blog-text">
+                      🧩 Why Does ChatGPT Give You Options? It’s Smarter Than You Think!
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+             <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/ai-without-orchestration-thats-just-noise-om-sudhamsh-padma-jrxoc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd6.png" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">June 21, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>Behind the scenes of AI</strong> Learn </h3>
+
+                  <p class="blog-text">
+                      The Art of syncing Models, Tools & Emotions, AI Without Orchestration? That's just noice.
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+             <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/mcp-craze-got-me-curious-om-sudhamsh-padma-rnmxc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd5.png" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">June 15, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>All about <b>MCP</b></strong> Learn </h3>
+
+                  <p class="blog-text">
+                      🤔The MCP Craze That Got Me Curious 
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+             <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/why-i-attend-eventsits-just-linkedin-om-sudhamsh-padma-fdjnc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd4.png" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">June 9, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>Solo in a Crowd | The event paradox</strong> Learn </h3>
+
+                  <p class="blog-text">
+                     Why I Attend Events—It’s Not Just for LinkedIn
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+             <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/prompt-engineering-art-talking-ai-like-pro-om-sudhamsh-padma-tv4jc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd3.jpeg" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">June 1, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>Not getting perfect results from AI?</strong> Learn </h3>
+
+                  <p class="blog-text">
+                     🚀 Prompt Engineering: The Art of Talking to AI Like a Pro
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+
+            <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/how-does-chatgpt-work-om-sudhamsh-padma-x8soc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd2.jpeg" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">May 29, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>How does ChatGPT work?</strong> Learn </h3>
+
+                  <p class="blog-text">
+                     From Pre-training to Answering Your Questions — A Simplified Guide 
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+
+            <li class="blog-post-item">
+              <a href="https://www.linkedin.com/pulse/from-my-desk-edition-01-introduction-om-sudhamsh-padma-2jqgc">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/fmd1.jpeg" alt="Design conferences in 2022" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">NewsLetter</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2022-02-23">May 27, 2025 </time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title"><strong>From My Desk.</strong> Learn </h3>
+
+                  <p class="blog-text">
+                    From my desk, I share insights on tech, design, and productivity.
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
+            <!-- ...repeat for all blog cards... -->
+          </ul>
+        </section>
+
         <div class="resume-button-wrapper">
-          <a href="https://medium.com/@omsudhamsh.ai" target="_blank" class="resume-button">More Articles</a>
-          <a href="https://medium.com/@omsudhamsh.ai" target="_blank" class="resume-button">Links</a>
+          <a href="https://medium.com/@omsudhamsh.ai" target="_blank" class="resume-button">Medium Articles</a>
+          <a href="https://www.linkedin.com/in/omsudhamsh/recent-activity/newsletter/" target="_blank" class="resume-button">LinkedIn NewsLetters</a>
         </div>
-
-
       </article>
 
       <!--
@@ -903,24 +1140,24 @@
             <!-- Medium -->
             <a href="https://medium.com/@omsudhamsh.ai" class="social-card" target="_blank">
               <div class="social-content">
-                <i class="fa-brands fa-medium social-icon"></i>
-                <div class="social-info">
-                  <h3>Medium</h3>
-                  <p>Articles & Blogs</p>
-                  <div class="social-stats">@omsudhamsh.ai</div>
-                </div>
+          <i class="fa-brands fa-medium social-icon"></i>
+          <div class="social-info">
+            <h3>Medium</h3>
+            <p>Articles & Blogs</p>
+            <div class="social-stats">@omsudhamsh.ai</div>
+          </div>
               </div>
             </a>
 
             <!-- WhatsApp -->
             <a href="https://whatsapp.com/channel/0029Vb7dohRLI8YdaiqwVa3A" class="social-card" target="_blank">
               <div class="social-content">
-                <i class="fa-brands fa-whatsapp social-icon"></i>
-                <div class="social-info">
-                  <h3>WhatsApp Channel</h3>
-                  <p>Updates & Community</p>
-                  <div class="social-stats">Om Sudhamsh's Channel</div>
-                </div>
+          <i class="fa-brands fa-whatsapp social-icon"></i>
+          <div class="social-info">
+            <h3>Draftr.</h3>
+            <p>Latest tech & free events in Hyderabad</p>
+            <div class="social-stats">Draftr. Channel</div>
+          </div>
               </div>
             </a>
           </section>
@@ -1579,6 +1816,37 @@
         gap: 15px;
       }
     }
+
+    /* Blog Tabs Styling */
+    .blog-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      margin-top: 10px;
+    }
+    .blog-tab {
+      background: var(--border-gradient-onyx);
+      color: var(--orange-yellow-crayola);
+      border: none;
+      border-radius: 10px 10px 0 0;
+      padding: 12px 28px;
+      font-size: 1em;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+    }
+    .blog-tab.active {
+      background: var(--bg-gradient-yellow-1);
+      color: var(--white-2);
+    }
+    .blog-tab-content {
+      display: none;
+      animation: fadeIn 0.4s;
+    }
+    .blog-tab-content.active {
+      display: block;
+    }
   </style>
 
   <script>
@@ -1639,6 +1907,16 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<ion-icon name="paper-plane"></ion-icon><span>Send Message</span>';
         });
+      });
+    });
+
+    // Simple tab switcher for Blog section
+    document.querySelectorAll('.blog-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.blog-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.blog-tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelector('.blog-tab-content[data-tab-content="' + tab.dataset.tab + '"]').classList.add('active');
       });
     });
   </script>
