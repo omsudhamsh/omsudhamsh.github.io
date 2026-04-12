@@ -15,9 +15,12 @@
   <script>emailjs.init("GY1fgrTq_n7o4yQG7");</script>
 </head>
 <body>
+  <div class="custom-cursor"></div>
+  <div class="custom-cursor-follower"></div>
 
   <!-- ── NAVBAR ── -->
   <nav class="navbar">
+    <div class="scroll-progress"></div>
     <div class="nav-container">
       <a href="#" class="nav-logo">Om Sudhamsh</a>
       <div class="nav-links">
@@ -31,6 +34,13 @@
   </nav>
 
   <main>
+    <!-- ── THEME CONTROLS ── -->
+    <div class="theme-controls">
+      <button class="theme-btn" data-theme="neon" title="Neon Mode"><i class="fas fa-bolt"></i></button>
+      <button class="theme-btn" data-theme="glass" title="Glass Mode"><i class="fas fa-gem"></i></button>
+      <button class="theme-btn active" data-theme="default" title="Default Mode"><i class="fas fa-circle-nodes"></i></button>
+    </div>
+
     <!-- ── SIDEBAR ── -->
     <aside class="sidebar">
       <div class="profile-img">
@@ -79,7 +89,9 @@
       <section id="about" class="section active" data-page="about">
         <div class="hero">
           <p class="hero-subtitle">Hi there, I'm Om</p>
-          <h2 class="section-title">AI-focused Computer Science Student</h2>
+          <h2 class="section-title">
+            I build <span class="typing-text" data-words='["AI Models", "RAG Pipelines", "Full-Stack Apps", "Chatbots"]'></span>
+          </h2>
           <p class="hero-tagline">
             Specializing in LLMs, RAG pipelines, and building scalable full-stack AI applications. 
             I bridge the gap between complex AI models and user-centric interfaces.
@@ -123,10 +135,18 @@
       <!-- ── PROJECTS PAGE ── -->
       <section id="projects" class="section" data-page="projects">
         <h2 class="section-title">Featured Projects</h2>
+        
+        <!-- Project Filter -->
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="ai">AI / RAG</button>
+          <button class="filter-btn" data-filter="web">Web Tools</button>
+        </div>
+
         <div class="grid">
           
           <!-- Project 1 -->
-          <div class="project-card">
+          <div class="project-card" data-category="ai">
             <h3 class="project-title">RAG Chatbot Application</h3>
             <div class="project-tags">
               <span class="project-tag">React</span>
@@ -148,7 +168,7 @@
           </div>
 
           <!-- Project 2 -->
-          <div class="project-card">
+          <div class="project-card" data-category="ai">
             <h3 class="project-title">AskData – AI Data Platform</h3>
             <div class="project-tags">
               <span class="project-tag">React</span>
@@ -170,7 +190,7 @@
           </div>
 
           <!-- Project 3 -->
-          <div class="project-card">
+          <div class="project-card" data-category="web">
             <h3 class="project-title">Prompt Generator</h3>
             <div class="project-tags">
               <span class="project-tag">React</span>
@@ -253,6 +273,22 @@
       <section id="skills" class="section" data-page="skills">
         <h2 class="section-title">Technical Expertise</h2>
         
+        <!-- Interactive Stats -->
+        <div class="skills-stats-grid">
+          <div class="stat-card">
+            <h4 class="stat-number" data-target="95">0%</h4>
+            <p>Accuracy focus in RAG</p>
+          </div>
+          <div class="stat-card">
+            <h4 class="stat-number" data-target="25">0+</h4>
+            <p>AI Hackathon Participation</p>
+          </div>
+          <div class="stat-card">
+            <h4 class="stat-number" data-target="15">0+</h4>
+            <p>Full-stack AI Tools</p>
+          </div>
+        </div>
+
         <div class="skill-group">
           <h3>GenAI / LLMs</h3>
           <div class="badges-container">
