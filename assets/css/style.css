@@ -534,6 +534,33 @@ main {
   overflow: hidden;
 }
 
+/* ── Education & Professional Cards ── */
+.edu-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: var(--transition);
+  position: relative;
+}
+
+.edu-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  color: var(--accent);
+  transition: var(--transition);
+}
+
 .cert-card::after {
   content: 'Verify Credential ↗';
   position: absolute;
@@ -563,7 +590,12 @@ main {
   box-shadow: 0 10px 30px -10px rgba(177, 158, 239, 0.4);
 }
 
-.cert-icon {
+.edu-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 5px 15px rgba(177, 158, 239, 0.1);
+}
+
+.cert-icon, .edu-icon {
   width: 50px;
   height: 50px;
   border-radius: 12px;
@@ -581,6 +613,42 @@ main {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 2px;
+}
+
+/* ── Highlighted Certification ── */
+.highlight-cert {
+  border-color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+  box-shadow: 0 0 20px rgba(177, 158, 239, 0.15);
+}
+
+.cert-meta {
+  margin-top: 8px;
+}
+
+.mini-profile-link {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+  transition: var(--transition);
+}
+
+.mini-profile-link:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.mini-profile-link i {
+  font-size: 0.8rem;
 }
 
 /* ── Skill Groups ── */
@@ -637,6 +705,21 @@ main {
 
 .timeline-org {
   font-size: 0.95rem;
+  color: var(--accent);
+}
+
+.verify-link {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 8px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.verify-link:hover {
   color: var(--accent);
 }
 
