@@ -9,11 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const x = e.clientX;
     const y = e.clientY;
     
+    // Check if cursor is out of bounds or invisible
+    if (x <= 0 || y <= 0 || x >= window.innerWidth || y >= window.innerHeight) {
+      cursor.style.opacity = '0';
+      follower.style.opacity = '0';
+    } else {
+      cursor.style.opacity = '1';
+      follower.style.opacity = '0.5';
+    }
+
     // Smooth movement with requestAnimationFrame for performance
     requestAnimationFrame(() => {
       cursor.style.transform = `translate(${x - 10}px, ${y - 10}px)`;
       follower.style.transform = `translate(${x - 20}px, ${y - 20}px)`;
     });
+  });
+
+  // Handle cursor leaving the window
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+    follower.style.opacity = '0';
+  });
+
+  document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+    follower.style.opacity = '0.5';
   });
 
   // Adding hover effects to all interactive elements
@@ -167,6 +187,90 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.3 });
 
   if (skillsSection) observer.observe(skillsSection);
+
+  // Dynamic Content Loading Logic
+  function loadDynamicContent() {
+    // Projects
+    const projectsGrid = document.querySelector('#projects .grid');
+    if (projectsGrid) {
+      // Clear or prevent double-loading if necessary (optional)
+      // projectsGrid.innerHTML = '';
+      
+      const dynamicProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+      dynamicProjects.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.dataset.category = p.category;
+        card.innerHTML = `
+          <h3 class="project-title">${p.title}</h3>
+          <div class="project-tags">
+            ${p.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+          </div>
+          <div class="project-desc"><ul><li>${p.description}</li></ul></div>
+          <div class="project-links">
+            ${p.link ? `<a href="${p.link}" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>` : ''}
+          </div>
+        `;
+        projectsGrid.appendChild(card);
+      });
+    }
+
+    // Skills
+    const dynamicSkills = JSON.parse(localStorage.getItem('skills') || '[]');
+    const skillsContainer = document.querySelector('#skills');
+    
+    if (skillsContainer) {
+      dynamicSkills.forEach(s => {
+        let group = Array.from(skillsContainer.querySelectorAll('.skill-group')).find(g => g.querySelector('h3').textContent.trim() === s.category);
+        if (!group) {
+          group = document.createElement('div');
+          group.className = 'skill-group';
+          group.innerHTML = `<h3>${s.category}</h3><div class="badges-container"></div>`;
+          skillsContainer.appendChild(group);
+        }
+        const container = group.querySelector('.badges-container');
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = s.name;
+        container.appendChild(badge);
+      });
+    }
+
+    // Gallery
+    const galleryGrid = document.querySelector('.gallery-grid');
+    if (galleryGrid) {
+      const dynamicGallery = JSON.parse(localStorage.getItem('gallery') || '[]');
+      dynamicGallery.forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `
+          <img src="${g.url}" alt="${g.title}" class="gallery-img">
+          <div class="gallery-overlay">
+            <h3 class="gallery-title">${g.title}</h3>
+          </div>
+        `;
+        galleryGrid.appendChild(item);
+      });
+    }
+
+    // Re-attach hover effects for ALL elements including dynamic ones
+    const allInteractives = document.querySelectorAll('a, button, .project-card, .gallery-item, .cert-card, .edu-card, .badge');
+    const cursor = document.querySelector('.custom-cursor');
+    const follower = document.querySelector('.custom-cursor-follower');
+
+    allInteractives.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if (cursor) cursor.classList.add('cursor-hover');
+        if (follower) follower.style.opacity = '1';
+      });
+      el.addEventListener('mouseleave', () => {
+        if (cursor) cursor.classList.remove('cursor-hover');
+        if (follower) follower.style.opacity = '0.5';
+      });
+    });
+  }
+
+  loadDynamicContent();
 
   navLinks.forEach(link => {
     link.addEventListener('click', () => {

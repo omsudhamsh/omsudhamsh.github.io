@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <style>
+    :root {
+      --admin-bg: #121212;
+      --admin-card: #1e1e1e;
+      --admin-primary: #00ffcc;
+      --admin-text: #ffffff;
+      --admin-secondary: #aaaaaa;
+    }
+    body.admin-mode {
+      background: var(--admin-bg);
+      color: var(--admin-text);
+      font-family: 'Poppins', sans-serif;
+    }
+    .admin-login-container {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-card {
+      background: var(--admin-card);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .admin-card h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--admin-primary);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--admin-secondary);
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: white;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--admin-primary);
+    }
+    .admin-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--admin-primary);
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .admin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,255,204,0.3);
+    }
+    
+    /* Dashboard */
+    .dashboard-container {
+      display: none;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 1.5rem;
+    }
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .view-site-btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--admin-secondary);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+    }
+    .view-site-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .logout-btn {
+      background: #ff4d4d22;
+      border: 1px solid #ff4d4d44;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      color: #ff4d4d;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.3s;
+    }
+    .logout-btn:hover {
+      background: #ff4d4d;
+      color: white;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+    .admin-section {
+      background: var(--admin-card);
+      padding: 1.5rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      align-self: start;
+    }
+    .admin-section h3 {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      color: var(--admin-primary);
+    }
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+    .items-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .items-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+    }
+    .dashboard-item {
+      background: rgba(255,255,255,0.02);
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: 0.3s;
+    }
+    .dashboard-item:hover {
+      background: rgba(0, 255, 204, 0.05);
+      border-color: rgba(0, 255, 204, 0.2);
+    }
+    .item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .item-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .item-subtitle {
+      font-size: 0.75rem;
+      color: var(--admin-secondary);
+    }
+    .delete-item {
+      color: #ff4d4d;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: 0.3s;
+      padding: 5px;
+    }
+    .delete-item:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    .add-form {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .add-form input, .add-form textarea, .add-form select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: white;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+    .add-form input:focus, .add-form textarea:focus, .add-form select:focus {
+      border-color: var(--admin-primary);
+      background: rgba(255,255,255,0.05);
+    }
+    .add-form textarea {
+      height: 80px;
+      resize: none;
+    }
+    .admin-btn-small {
+      padding: 0.7rem;
+      background: var(--admin-primary);
+      color: black;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+    .admin-btn-small:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,255,204,0.3);
+    }
+  </style>
+</head>
+<body class="admin-mode">
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="admin-login-container">
+    <div class="admin-card">
+      <h2>Admin Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="username" required placeholder="admin">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="admin-btn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard-container">
+    <header class="dashboard-header">
+      <div class="header-info">
+        <h1 style="font-size: 1.5rem;">Portfolio CMS</h1>
+        <p style="font-size: 0.8rem; color: var(--admin-secondary);">Manage your website content</p>
+      </div>
+      <div class="header-actions">
+        <a href="index.html" class="view-site-btn" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <div class="admin-grid">
+      <!-- Projects Section -->
+      <div class="admin-section">
+        <h3><i class="fas fa-rocket"></i> Projects</h3>
+        <form id="projectForm" class="add-form">
+          <input type="text" id="pTitle" placeholder="Project Name" required>
+          <input type="text" id="pTags" placeholder="Tags (React, FastAPI, Gemini)" required>
+          <textarea id="pDesc" placeholder="Brief description of the project" required></textarea>
+          <select id="pCategory">
+            <option value="ai">AI / RAG</option>
+            <option value="web">Web Tools</option>
+          </select>
+          <input type="url" id="pLink" placeholder="GitHub Repository URL">
+          <button type="submit" class="admin-btn-small">Add Project</button>
+        </form>
+        <div id="projectList" class="items-list"></div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="admin-section">
+        <h3><i class="fas fa-brain"></i> Skills</h3>
+        <form id="skillForm" class="add-form">
+          <select id="sCategory" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="GenAI / LLMs">GenAI / LLMs</option>
+            <option value="ML & NLP">ML & NLP</option>
+            <option value="Programming">Programming</option>
+            <option value="Frontend">Frontend</option>
+            <option value="Backend & AI Tools">Backend & AI Tools</option>
+            <option value="Data & Tools">Data & Tools</option>
+            <option value="Others">Others</option>
+          </select>
+          <input type="text" id="sName" placeholder="Skill Name (e.g. PyTorch)" required>
+          <button type="submit" class="admin-btn-small">Add Skill</button>
+        </form>
+        <div id="skillList" class="items-list"></div>
+      </div>
+
+       <!-- Gallery Section -->
+       <div class="admin-section">
+        <h3><i class="fas fa-images"></i> Gallery</h3>
+        <form id="galleryForm" class="add-form">
+          <input type="text" id="gTitle" placeholder="Event/Image Title" required>
+          <input type="text" id="gUrl" placeholder="Image Path (e.g. assets/images/event.jpg)" required>
+          <button type="submit" class="admin-btn-small">Add to Gallery</button>
+        </form>
+        <div id="galleryList" class="items-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/js/admin.js"></script>
+</body>
+</html>
