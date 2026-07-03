@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Om Sudhamsh — AI & Full-Stack Developer</title>
+<meta name="description" content="Om Sudhamsh — AI & Full-Stack Developer. RAG pipelines, LLM apps, and scalable interfaces.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav-logo">OS<span>.</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#about" data-nav>About</a>
+    <a href="#work" data-nav>Work</a>
+    <a href="#skills" data-nav>Skills</a>
+    <a href="#gallery" data-nav>Gallery</a>
+    <a href="#draftr" data-nav>Draftr</a>
+    <a href="#more" data-nav>More</a>
+    <a href="./admin.html">Admin</a>
+  </div>
+  <a href="#contact" class="nav-cta">Say Hi</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-controls="mobileMenu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" data-nav>About</a>
+  <a href="#work" data-nav>Work</a>
+  <a href="#skills" data-nav>Skills</a>
+  <a href="#gallery" data-nav>Gallery</a>
+  <a href="#draftr" data-nav>Draftr</a>
+  <a href="#more" data-nav>More</a>
+  <a href="#contact" data-nav>Contact</a>
+  <a href="./admin.html">Admin</a>
+</div>
+
+<main>
+
+  <!-- ── HERO ── -->
+  <section class="section hero" id="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">AI &amp; FULL-STACK DEVELOPER</p>
+        <h1 class="hero-title reveal">
+          I build<br>
+          <span class="typing" data-words='["AI Models.","RAG Pipelines.","Full-Stack Web Apps.","Chatbots."]'></span>
+        </h1>
+        <p class="hero-line reveal">Bridging LLMs and real interfaces — from Hyderabad, India.</p>
+        <div class="btn-row reveal">
+          <a href="#work" class="btn btn-solid magnetic">View Work</a>
+          <a href="assets/resume/OmSudhamshPadma..pdf" target="_blank" class="btn btn-line magnetic">Résumé</a>
+          <a href="#contact" class="btn btn-ghost magnetic">Say Hi</a>
+        </div>
+      </div>
+      <div class="hero-photo reveal">
+        <img class="hero-photo-base" src="./assets/images/Photo.png" alt="Om Sudhamsh">
+        <img class="hero-photo-color" src="./assets/images/Photo.png" alt="" aria-hidden="true">
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll <i class="fas fa-arrow-down"></i></div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section class="section" id="about">
+    <p class="eyebrow reveal">NOW</p>
+    <h2 class="section-title reveal">Deep in RAG&nbsp;pipelines.</h2>
+    <p class="section-line reveal">Optimizing retrieval-augmented generation for production-grade LLM systems.</p>
+
+    <div class="milestone reveal">
+      <div class="milestone-mark">01</div>
+      <div class="milestone-body">
+        <p class="milestone-title">Runner-Up</p>
+        <p class="milestone-org">Convergence '25 Hackathon</p>
+      </div>
+      <a href="https://drive.google.com/file/d/1USVXZoMY3oKVAWsekMqUnU9U9Lh3l4QC/view?usp=sharing" target="_blank" class="verify">Verify <i class="fas fa-arrow-up-right-from-square"></i></a>
+    </div>
+
+    <div class="info-row reveal">
+      <div class="info-chip"><i class="fas fa-envelope"></i><span>omsudhamsh@gmail.com</span></div>
+      <div class="info-chip"><i class="fas fa-location-dot"></i><span>Hyderabad, India</span></div>
+      <div class="info-chip"><i class="fas fa-graduation-cap"></i><span>B.Tech CSE — AI &amp; ML</span></div>
+    </div>
+  </section>
+
+  <!-- ── WORK ── -->
+  <section class="section" id="work">
+    <p class="eyebrow reveal">SELECTED</p>
+    <h2 class="section-title reveal">Work</h2>
+
+    <div class="filter-row reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ai">AI / RAG</button>
+      <button class="filter-btn" data-filter="web">Web Tools</button>
+    </div>
+
+    <div class="work-grid" id="workGrid">
+      <article class="work-card reveal" data-category="ai">
+        <div class="work-num">01</div>
+        <h3>RAG Chatbot Application</h3>
+        <p>Context-aware conversational AI built on a semantic retrieval pipeline.</p>
+        <div class="tag-row">
+          <span>React</span><span>LangChain</span><span>Gemini</span><span>FastAPI</span>
+        </div>
+        <a href="https://github.com/omsudhamsh/rag-chatbot" target="_blank" class="work-link">GitHub <i class="fab fa-github"></i></a>
+      </article>
+
+      <article class="work-card reveal" data-category="ai">
+        <div class="work-num">02</div>
+        <h3>AskData — AI Data Platform</h3>
+        <p>Natural language to SQL, with real-time query execution and a clean UI.</p>
+        <div class="tag-row">
+          <span>React</span><span>FastAPI</span><span>Groq LLM</span><span>SQLite</span>
+        </div>
+        <a href="https://github.com/omsudhamsh/nl-sql" target="_blank" class="work-link">GitHub <i class="fab fa-github"></i></a>
+        <a href="https://nl-sql-teal.vercel.app/" target="_blank" class="work-link">Live <i class="fas fa-arrow-up-right-from-square"></i></a>
+      </article>
+
+      <article class="work-card reveal" data-category="web">
+        <div class="work-num">03</div>
+        <h3>Prompt Generator</h3>
+        <p>Structured prompt builder for datasets, with a 0–100 quality scoring system.</p>
+        <div class="tag-row">
+          <span>React</span><span>Tailwind</span><span>shadcn/ui</span><span>Gemini API</span>
+        </div>
+        <a href="https://github.com/omsudhamsh/prompt-generator" target="_blank" class="work-link">GitHub <i class="fab fa-github"></i></a>
+        <a href="https://omsudhamsh.github.io/prompt-generator/" target="_blank" class="work-link">Live <i class="fas fa-arrow-up-right-from-square"></i></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section class="section" id="skills">
+    <p class="eyebrow reveal">STACK</p>
+    <h2 class="section-title reveal">Technical range.</h2>
+
+    <div class="stats-row reveal">
+      <div class="stat"><h3 data-target="95">0</h3><p>% accuracy focus in RAG</p></div>
+      <div class="stat"><h3 data-target="25">0</h3><p>+ AI hackathons</p></div>
+      <div class="stat"><h3 data-target="15">0</h3><p>+ full-stack AI tools</p></div>
+    </div>
+
+    <div class="skill-tabs reveal">
+      <div class="tab-nav" id="tabNav">
+        <button class="tab-btn active" data-tab="genai">GenAI / LLMs</button>
+        <button class="tab-btn" data-tab="ml">ML &amp; NLP</button>
+        <button class="tab-btn" data-tab="lang">Languages</button>
+        <button class="tab-btn" data-tab="front">Frontend</button>
+        <button class="tab-btn" data-tab="back">Backend &amp; AI</button>
+        <button class="tab-btn" data-tab="data">Data &amp; Tools</button>
+      </div>
+      <div class="tab-panel active" data-panel="genai">
+        <span>Prompt Engineering</span><span>LangChain</span><span>RAG</span><span>Conversational AI</span>
+      </div>
+      <div class="tab-panel" data-panel="ml">
+        <span>NLP</span><span>Sentiment Analysis</span><span>Intent Detection</span><span>Deep Learning</span>
+      </div>
+      <div class="tab-panel" data-panel="lang">
+        <span>Python</span><span>JavaScript (ES6+)</span><span>TypeScript</span><span>SQL</span><span>Java</span>
+      </div>
+      <div class="tab-panel" data-panel="front">
+        <span>React.js</span><span>HTML5</span><span>CSS3</span><span>Tailwind CSS</span><span>Next.js</span>
+      </div>
+      <div class="tab-panel" data-panel="back">
+        <span>FastAPI</span><span>REST APIs</span><span>Hugging Face</span><span>Gemini API</span><span>Groq API</span>
+      </div>
+      <div class="tab-panel" data-panel="data">
+        <span>Pandas</span><span>NumPy</span><span>Supabase</span><span>Git</span><span>GitHub</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ── -->
+  <section class="section" id="gallery">
+    <p class="eyebrow reveal">MOMENTS</p>
+    <h2 class="section-title reveal">Gallery</h2>
+    <p class="section-line reveal">A few frames from hackathons, talks, and community days. Hover for color.</p>
+
+    <div class="gallery-grid reveal">
+      <figure class="gal-item"><img src="./assets/images/mlrd.jpg" alt="HackLeague"><figcaption>HackLeague — Google (MU)</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/gal-5.png" alt="AI for Good"><figcaption>AI for Good — NIAT</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/gal-4.jpg" alt="AI Day"><figcaption>AI Day</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/React-Msft.jpeg" alt="React and Microsoft"><figcaption>React &amp; Microsoft</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/gal-1.jpg" alt="Runner Up"><figcaption>Runner Up</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/gal-3.JPG" alt="Open Source Day"><figcaption>Open Source Day</figcaption></figure>
+      <figure class="gal-item"><img src="./assets/images/gal-2.jpg" alt="Aleph Zero, J-Hub"><figcaption>Aleph Zero, J-Hub</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ── DRAFTR ── -->
+  <section class="section" id="draftr">
+    <p class="eyebrow reveal">COMMUNITY</p>
+    <h2 class="section-title reveal">Draftr</h2>
+    <p class="section-line reveal">A community I run for AI, tech, and career growth.</p>
+
+    <div class="draftr-callout reveal">
+      <div class="draftr-icon"><i class="fab fa-whatsapp"></i></div>
+      <div class="draftr-copy">
+        <h3>Follow the Draftr WhatsApp Channel</h3>
+        <p>Free events, resources, and many more Hyderabad tech updates for AI, builders, and career growth.</p>
+      </div>
+      <a href="https://whatsapp.com/channel/0029Vb7dohRLI8YdaiqwVa3A" target="_blank" class="btn btn-solid magnetic">Follow Channel <i class="fas fa-arrow-up-right-from-square"></i></a>
+    </div>
+  </section>
+
+  <!-- ── MORE ── -->
+  <section class="section" id="more">
+    <p class="eyebrow reveal">CREDENTIALS</p>
+    <h2 class="section-title reveal">Certs &amp; experience.</h2>
+
+    <div class="cert-grid reveal">
+      <a href="https://www.credly.com/badges/a742ceb4-af56-4481-bd5f-ba2af1025002/linked_in_profile" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>IBM Cloud Essentials</a>
+      <a href="https://www.credly.com/badges/76a8419e-dde3-4106-a26f-337cbc7f26bb/public_url" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>Cisco Networking Academy</a>
+      <a href="https://drive.google.com/file/d/1BszxzwzXTK7QlGaPF-aJwVdkHswE-1zk/view" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>Python for Data Science</a>
+      <a href="https://learn.microsoft.com/en-us/users/omsudhamsh-2001/achievements/bcze8jpd?ref=https%3A%2F%2Fwww.credly.com%2F" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>MS Intro to ML</a>
+      <a href="https://courses.cognitiveclass.ai/certificates/6e80b58f92e2427f86bf5e7304bcfe27" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>Deep Learning (TensorFlow)</a>
+      <a href="https://trailhead.salesforce.com/en/credentials/certification-detail-print/?searchString=XwtLkzmbFJV8eXMAKE/iC3X5wNHy9cmrrpP21TsIc92urlWE+TSvPZWSc/DmI/j9" target="_blank" class="cert-chip"><i class="fas fa-certificate"></i>Salesforce Agentforce</a>
+      <a href="https://drive.google.com/file/d/1T_k-MBZr4C7DsPPYrVD4gfY5RVfIoShF/view?usp=sharing" target="_blank" class="cert-chip highlight"><i class="fas fa-certificate"></i>Google GenAI</a>
+    </div>
+
+    <div class="more-split">
+      <div class="timeline reveal">
+        <h4>Experience</h4>
+        <div class="t-item"><p class="t-title">Creative Lead</p><p class="t-org">NextGen Nexus</p></div>
+        <div class="t-item"><p class="t-title">Student Volunteer</p><p class="t-org">Microsoft AI Innovators Hub <a href="https://www.linkedin.com/in/omsudhamsh/overlay/Position/2655080503/treasury/?profileId=ACoAAEUVtQQBmUsYwnAJxMd0IjQDOPqvIH4BmTo" target="_blank">Verify ↗</a></p></div>
+        <div class="t-item"><p class="t-title">Graphic Designer</p><p class="t-org">E-Cell CMRCET</p></div>
+      </div>
+      <div class="edu reveal">
+        <h4>Education</h4>
+        <p class="edu-title">B.Tech CSE (AI &amp; ML)</p>
+        <p class="edu-org">CMR College of Engineering &amp; Technology · GPA 8.36</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section class="section contact-section" id="contact">
+    <p class="eyebrow reveal">GET IN TOUCH</p>
+    <h2 class="contact-title reveal">Let's build<br>something.</h2>
+    <a href="mailto:omsudhamsh@gmail.com" class="contact-email reveal">omsudhamsh@gmail.com</a>
+
+    <div class="social-row reveal">
+      <a href="https://github.com/omsudhamsh" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://linkedin.com/in/omsudhamsh" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://x.com/om_sudhamsh" target="_blank"><i class="fab fa-twitter"></i> Twitter / X</a>
+      <a href="https://www.skills.google/public_profiles/4b1a8fbb-e8d1-4f9d-a95a-469f78caa376" target="_blank"><i class="fab fa-google"></i> Google Skills</a>
+      <a href="https://whatsapp.com/channel/0029Vb7dohRLI8YdaiqwVa3A" target="_blank"><i class="fab fa-whatsapp"></i> Draftr Channel</a>
+    </div>
+
+    <p class="foot-note">© <span id="year"></span> Om Sudhamsh. Built with intent.</p>
+  </section>
+
+</main>
+
+<script src="./assets/js/portfolio-data.js"></script>
+<script src="./script.js"></script>
+</body>
+</html>
