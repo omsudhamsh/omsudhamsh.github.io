@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Admin - Om Sudhamsh</title>
+<meta name="robots" content="noindex,nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body class="admin-page">
+  <main class="admin-shell">
+    <header class="admin-topbar">
+      <a href="./index.html" class="nav-logo">OS<span>.</span></a>
+      <div class="admin-topbar-actions">
+        <a href="./index.html" class="admin-link-btn"><i class="fas fa-arrow-left"></i> Site</a>
+        <div id="clerkUser"></div>
+      </div>
+    </header>
+
+    <section class="admin-hero">
+      <p class="eyebrow">PRIVATE CMS</p>
+      <h1>Portfolio Admin</h1>
+      <p>Signed-in admin can update profile photo, resume, skills, stack, projects, Draftr, gallery, certs, experience, education, socials, and raw content JSON.</p>
+    </section>
+
+    <section id="clerkConfigNotice" class="admin-panel admin-warning" hidden>
+      <h2>Clerk setup needed</h2>
+      <p>Add your Clerk Publishable Key in <code>assets/js/admin.js</code>. The admin email is already locked to <code>ommsstudentnetwork@gmail.com</code>.</p>
+    </section>
+
+    <section id="authScreen" class="admin-panel">
+      <h2>Sign in</h2>
+      <p>Use Clerk to continue. Only <code>ommsstudentnetwork@gmail.com</code> can open the editor.</p>
+      <div id="signInMount" class="clerk-mount"></div>
+      <p id="authMessage" class="admin-message"></p>
+    </section>
+
+    <section id="dashboard" class="admin-dashboard" hidden>
+      <div class="admin-actions">
+        <button id="saveJson" class="admin-btn primary"><i class="fas fa-floppy-disk"></i> Save</button>
+        <button id="previewSite" class="admin-btn"><i class="fas fa-eye"></i> Preview Site</button>
+        <button id="exportJson" class="admin-btn"><i class="fas fa-download"></i> Export JSON</button>
+        <label class="admin-btn file-btn">
+          <i class="fas fa-upload"></i> Import JSON
+          <input id="importJson" type="file" accept="application/json">
+        </label>
+        <button id="resetData" class="admin-btn danger"><i class="fas fa-rotate-left"></i> Reset</button>
+      </div>
+
+      <div class="admin-grid">
+        <section class="admin-panel">
+          <h2>Quick Updates</h2>
+          <form id="mediaForm" class="admin-form">
+            <label>Photo.png replacement URL or asset path
+              <input id="photoUrl" type="text" placeholder="./assets/images/Photo.png">
+            </label>
+            <label>Or choose profile photo for local preview
+              <input id="photoFile" type="file" accept="image/*">
+            </label>
+            <label>Resume URL or asset path
+              <input id="resumeUrl" type="text" placeholder="assets/resume/OmSudhamshPadma..pdf">
+            </label>
+            <label>Or choose resume PDF for local preview
+              <input id="resumeFile" type="file" accept="application/pdf">
+            </label>
+            <button class="admin-btn primary" type="submit">Update Media</button>
+          </form>
+
+          <form id="projectForm" class="admin-form">
+            <h3>Add Project</h3>
+            <input id="projectTitle" type="text" placeholder="Project title" required>
+            <textarea id="projectDesc" placeholder="Project description" required></textarea>
+            <input id="projectTags" type="text" placeholder="React, FastAPI, RAG" required>
+            <select id="projectCategory">
+              <option value="ai">AI / RAG</option>
+              <option value="web">Web Tools</option>
+            </select>
+            <input id="projectGithub" type="url" placeholder="GitHub URL">
+            <input id="projectLive" type="url" placeholder="Live URL">
+            <button class="admin-btn primary" type="submit">Add Project</button>
+          </form>
+
+          <form id="skillForm" class="admin-form">
+            <h3>Add Skill</h3>
+            <input id="skillGroup" type="text" placeholder="Group, e.g. GenAI / LLMs" required>
+            <input id="skillName" type="text" placeholder="Skill name" required>
+            <button class="admin-btn primary" type="submit">Add Skill</button>
+          </form>
+        </section>
+
+        <section class="admin-panel">
+          <h2>More Additions</h2>
+          <form id="galleryForm" class="admin-form">
+            <h3>Add Gallery Item</h3>
+            <input id="galleryTitle" type="text" placeholder="Caption" required>
+            <input id="galleryImage" type="text" placeholder="./assets/images/example.jpg" required>
+            <button class="admin-btn primary" type="submit">Add Gallery</button>
+          </form>
+
+          <form id="certForm" class="admin-form">
+            <h3>Add Cert / Experience Link</h3>
+            <input id="certTitle" type="text" placeholder="Certificate title" required>
+            <input id="certUrl" type="url" placeholder="Verification URL" required>
+            <label class="admin-check"><input id="certHighlight" type="checkbox"> Highlight</label>
+            <button class="admin-btn primary" type="submit">Add Certificate</button>
+          </form>
+
+          <form id="draftrForm" class="admin-form">
+            <h3>Draftr Channel</h3>
+            <input id="draftrHeading" type="text" placeholder="Heading">
+            <textarea id="draftrBody" placeholder="Channel description or latest update"></textarea>
+            <input id="draftrUrl" type="url" placeholder="WhatsApp channel URL">
+            <button class="admin-btn primary" type="submit">Update Draftr</button>
+          </form>
+
+          <form id="socialForm" class="admin-form">
+            <h3>Add Profile Link</h3>
+            <input id="socialLabel" type="text" placeholder="CodeChef / Codeforces / LeetCode" required>
+            <input id="socialUrl" type="url" placeholder="Profile URL" required>
+            <input id="socialIcon" type="text" placeholder="Font Awesome class, e.g. fas fa-code">
+            <button class="admin-btn primary" type="submit">Add Link</button>
+          </form>
+        </section>
+      </div>
+
+      <section class="admin-panel">
+        <div class="json-head">
+          <div>
+            <h2>Delete Content</h2>
+            <p>Remove entries from the editable collections. Save happens immediately and the JSON editor stays in sync.</p>
+          </div>
+        </div>
+        <div class="delete-grid">
+          <div>
+            <h3>Projects</h3>
+            <div id="projectsList" class="admin-list"></div>
+          </div>
+          <div>
+            <h3>Skills</h3>
+            <div id="skillsList" class="admin-list"></div>
+          </div>
+          <div>
+            <h3>Gallery</h3>
+            <div id="galleryList" class="admin-list"></div>
+          </div>
+          <div>
+            <h3>Certificates</h3>
+            <div id="certsList" class="admin-list"></div>
+          </div>
+          <div>
+            <h3>Social Links</h3>
+            <div id="socialsList" class="admin-list"></div>
+          </div>
+          <div>
+            <h3>Experience</h3>
+            <div id="experienceList" class="admin-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <div class="json-head">
+          <div>
+            <h2>Full Content JSON</h2>
+            <p>Edit any element directly here. Save writes to this browser; export gives you a backup/import JSON snapshot.</p>
+          </div>
+          <span id="jsonStatus" class="admin-status">Ready</span>
+        </div>
+        <textarea id="jsonEditor" class="json-editor" spellcheck="false"></textarea>
+      </section>
+    </section>
+  </main>
+
+  <script src="./assets/js/portfolio-data.js"></script>
+  <script src="./assets/js/admin.js"></script>
+</body>
+</html>
