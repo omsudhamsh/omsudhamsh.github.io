@@ -29,12 +29,8 @@ jobs:
         run: |
           rm -rf dist
           mkdir -p dist
-          rsync -av --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude '.vscode' \
-            --exclude 'dist' \
-            ./ dist/
+          cp -R assets dist/
+          cp index.html admin.html style.css script.js .nojekyll dist/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
