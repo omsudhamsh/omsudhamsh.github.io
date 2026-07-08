@@ -1,5 +1,6 @@
 const ADMIN_EMAIL = 'ommsstudentnetwork@gmail.com';
 const CLERK_PUBLISHABLE_KEY = 'pk_test_bWF4aW11bS13YXJ0aG9nLTg0LmNsZXJrLmFjY291bnRzLmRldiQ';
+let clerkInstance = null;
 
 const $ = selector => document.querySelector(selector);
 
@@ -305,6 +306,12 @@ function showAuthMessage(message) {
   $('#authMessage').textContent = message;
 }
 
+async function logoutAdmin() {
+  if (!clerkInstance) return;
+  await clerkInstance.signOut();
+  window.location.href = './admin.html';
+}
+
 function getSignedInEmail(clerk) {
   return clerk.user?.primaryEmailAddress?.emailAddress || clerk.user?.emailAddresses?.[0]?.emailAddress || '';
 }
@@ -342,6 +349,13 @@ async function initAdmin() {
   try {
     const clerk = await loadClerk();
     if (!clerk) return;
+    clerkInstance = clerk;
+
+    const logoutBtn = $('#logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.hidden = !clerk.isSignedIn;
+      logoutBtn.addEventListener('click', logoutAdmin);
+    }
 
     if (clerk.isSignedIn) {
       const email = getSignedInEmail(clerk).toLowerCase();

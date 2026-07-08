@@ -238,6 +238,61 @@ button{ font-family:inherit; background:none; border:none; color:inherit; cursor
 /* ============================================================
    ABOUT
 ============================================================ */
+.coding-section{ padding-top:120px; }
+.coding-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:16px;
+  max-width:980px;
+}
+.coding-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px 20px;
+  background:var(--bg-alt);
+  transition:transform .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+  min-width:0;
+}
+.coding-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+  background:rgba(223,255,91,.04);
+}
+.coding-logo{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  object-fit:contain;
+  flex:none;
+}
+.coding-logo-codeforces{
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg, #1d4ed8, #60a5fa);
+  color:#fff;
+  font-family:var(--display);
+  font-weight:700;
+  font-size:.82rem;
+  letter-spacing:.05em;
+}
+.coding-card div{ min-width:0; }
+.coding-label{
+  display:block;
+  font-family:var(--display);
+  font-weight:700;
+  font-size:1rem;
+  line-height:1.1;
+  margin-bottom:4px;
+}
+.coding-card p{
+  color:var(--ink-dim);
+  font-family:var(--mono);
+  font-size:.74rem;
+  overflow-wrap:anywhere;
+}
 .milestone{
   display:flex; align-items:center; gap:22px; border:1px solid var(--line);
   border-radius:16px; padding:22px 26px; max-width:560px; margin-bottom:34px;
@@ -698,6 +753,7 @@ button{ font-family:inherit; background:none; border:none; color:inherit; cursor
   .nav-cta{ display:none; }
   .nav-toggle{ display:flex; }
   .hero-grid{ grid-template-columns:1fr; }
+  .coding-grid{ grid-template-columns:1fr; }
   .hero-photo{ order:-1; width:min(100%, 250px); justify-self:start; }
   .work-grid{ grid-template-columns:1fr; }
   .draftr-callout{ grid-template-columns:1fr; align-items:start; }
