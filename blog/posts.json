@@ -22,5 +22,20 @@
     "tags": ["Writing", "Workflow", "Shipping"],
     "slug": "writing-while-building",
     "readTime": "3 min read"
+  },
+  {
+    "title": "How RAG Works: Retrieval-Augmented Generation Explained Simply",
+    "slug": "how-RAG-works",
+    "author": "Om Sudhamsh",
+    "date": "2026-07-17",
+    "readTime": "4 min read",
+    "excerpt": "Demystifying RAG: From PDFs to intelligent responses in plain English",
+    "tags": [
+      "RAG",
+      "Vector Embedding",
+      "Generative AI",
+      "LLM",
+      "AI"
+    ]
   }
 ]
