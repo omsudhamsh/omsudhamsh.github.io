@@ -30,6 +30,7 @@ jobs:
           rm -rf dist
           mkdir -p dist
           cp -R assets dist/
+          cp -R blog dist/
           cp index.html admin.html style.css script.js .nojekyll dist/
 
       - name: Configure Pages
