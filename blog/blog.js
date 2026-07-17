@@ -94,8 +94,18 @@ async function loadPublishedBlogPosts(){
 
 async function loadBlogPosts(){
   const stored = loadStoredBlogPosts();
-  if (stored.length) return stored;
-  return loadPublishedBlogPosts();
+  try {
+    const published = await loadPublishedBlogPosts();
+    const storedBySlug = new Map(stored.filter(post => post.slug).map(post => [post.slug, post]));
+    return published.map(post => {
+      const local = storedBySlug.get(post.slug);
+      if (!local) return post;
+      return { ...post, ...local, body: local.body || post.body };
+    }).concat(stored.filter(post => post.slug && !published.some(item => item.slug === post.slug)));
+  } catch (error) {
+    if (stored.length) return stored;
+    throw error;
+  }
 }
 
 function onScroll(){
@@ -260,7 +270,8 @@ async function initBlog(){
     }
   } catch (error) {
     if (blogGrid) {
-      blogGrid.innerHTML = '<p class="section-line reveal in-view">Writing is loading right now.</p>';
+      blogGrid.classList.add('in-view');
+      blogGrid.innerHTML = '<p class="section-line">Writing is loading right now.</p>';
     }
     console.warn('Blog page could not be initialized.', error);
   }
