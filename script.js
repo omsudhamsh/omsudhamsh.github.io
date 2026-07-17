@@ -296,7 +296,7 @@ async function renderBlogPreviews(){
   if (!blogGrid) return;
 
   try {
-    const previews = (await loadBlogPosts()).slice(0, 3);
+    const previews = await loadBlogPosts();
 
     blogGrid.innerHTML = previews.map(post => {
       const tags = Array.isArray(post.tags) ? post.tags : [];
