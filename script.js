@@ -69,14 +69,14 @@ function saveStoredBlogPosts(posts){
 }
 
 async function loadPublishedBlogPosts(){
-  const response = await fetch('./blog/posts.json');
+  const response = await fetch(`./blog/posts.json?v=${Date.now()}`, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Blog index request failed: ${response.status}`);
 
   const metas = await response.json();
   if (!Array.isArray(metas)) return [];
 
   const posts = await Promise.all(metas.map(async meta => {
-    const markdownResponse = await fetch(`./blog/posts/${encodeURIComponent(meta.slug)}.md`);
+    const markdownResponse = await fetch(`./blog/posts/${encodeURIComponent(meta.slug)}.md?v=${Date.now()}`, { cache: 'no-store' });
     const markdown = markdownResponse.ok ? await markdownResponse.text() : '';
     const parsed = parseBlogMarkdown(markdown);
     return normalizeBlogPost({

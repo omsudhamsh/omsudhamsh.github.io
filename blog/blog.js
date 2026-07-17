@@ -66,14 +66,14 @@ function saveStoredBlogPosts(posts){
 }
 
 async function loadPublishedBlogPosts(){
-  const response = await fetch('./posts.json');
+  const response = await fetch(`./posts.json?v=${Date.now()}`, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Posts request failed: ${response.status}`);
 
   const metas = await response.json();
   if (!Array.isArray(metas)) return [];
 
   const posts = await Promise.all(metas.map(async meta => {
-    const markdownResponse = await fetch(`./posts/${encodeURIComponent(meta.slug)}.md`);
+    const markdownResponse = await fetch(`./posts/${encodeURIComponent(meta.slug)}.md?v=${Date.now()}`, { cache: 'no-store' });
     const markdown = markdownResponse.ok ? await markdownResponse.text() : '';
     const parsed = parseBlogMarkdown(markdown);
     return normalizeBlogPost({
@@ -216,7 +216,7 @@ function renderPostList(posts){
 }
 
 async function loadPosts(){
-  const response = await fetch('./posts.json');
+  const response = await fetch(`./posts.json?v=${Date.now()}`, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Posts request failed: ${response.status}`);
   const posts = await response.json();
   return Array.isArray(posts) ? posts : [];
@@ -231,7 +231,7 @@ async function loadPost(slug, posts){
   let body = meta.body;
   let data = {};
   if (!body) {
-    const response = await fetch(`./posts/${encodeURIComponent(slug)}.md`);
+    const response = await fetch(`./posts/${encodeURIComponent(slug)}.md?v=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Markdown request failed: ${response.status}`);
     const markdown = await response.text();
     const parsed = parseFrontmatter(markdown);
