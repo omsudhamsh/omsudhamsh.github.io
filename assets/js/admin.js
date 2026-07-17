@@ -1,6 +1,22 @@
 const ADMIN_EMAIL = 'ommsstudentnetwork@gmail.com';
 const CLERK_PUBLISHABLE_KEY = 'pk_test_bWF4aW11bS13YXJ0aG9nLTg0LmNsZXJrLmFjY291bnRzLmRldiQ';
 let clerkInstance = null;
+const BLOG_STORAGE_KEY = 'portfolio-blog-posts-v1';
+const BLOG_TEMPLATE = `# [Title]
+
+_By [Author] · [Date]_
+
+## Context
+[Body]
+
+## Challenge
+Describe the problem, blockers, or decisions.
+
+## What changed
+Outline the approach, fix, or implementation.
+
+## Takeaways
+Summarize the lesson you want to remember.`;
 
 const $ = selector => document.querySelector(selector);
 
@@ -67,6 +83,135 @@ function readFileAsDataUrl(file) {
   });
 }
 
+function readFileAsText(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve('');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ''));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsText(file);
+  });
+}
+
+function slugify(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '') || 'new-post';
+}
+
+function todayIsoDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function normalizeTags(value) {
+  if (Array.isArray(value)) return value.map(tag => String(tag).trim()).filter(Boolean);
+  return String(value ?? '')
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(Boolean);
+}
+
+function parseBlogMarkdown(markdown) {
+  const match = String(markdown ?? '').match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const frontmatter = {};
+  let body = String(markdown ?? '').trim();
+
+  if (match) {
+    body = match[2].trim();
+    match[1].split('\n').forEach(line => {
+      const separatorIndex = line.indexOf(':');
+      if (separatorIndex === -1) return;
+      const key = line.slice(0, separatorIndex).trim();
+      const value = line.slice(separatorIndex + 1).trim();
+      frontmatter[key] = value;
+    });
+  }
+
+  return { frontmatter, body };
+}
+
+function blogMarkdown(post) {
+  return `---
+title: ${post.title}
+date: ${post.date}
+author: ${post.author}
+excerpt: ${post.excerpt}
+tags: ${normalizeTags(post.tags).join(', ')}
+slug: ${post.slug}
+readTime: ${post.readTime || '4 min read'}
+---
+
+${post.body.trim()}
+`;
+}
+
+function blogDownload(filename, content, type = 'text/markdown') {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function loadStoredBlogPosts() {
+  try {
+    const raw = localStorage.getItem(BLOG_STORAGE_KEY);
+    const posts = raw ? JSON.parse(raw) : [];
+    return Array.isArray(posts) ? posts : [];
+  } catch (error) {
+    console.warn('Stored blog posts could not be read.', error);
+    return [];
+  }
+}
+
+function saveStoredBlogPosts(posts) {
+  localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(posts));
+  window.dispatchEvent(new CustomEvent('blog:data-change', { detail: posts }));
+}
+
+async function loadPublishedBlogPosts() {
+  const response = await fetch('./blog/posts.json');
+  if (!response.ok) throw new Error(`Blog index request failed: ${response.status}`);
+
+  const metas = await response.json();
+  if (!Array.isArray(metas)) return [];
+
+  const posts = await Promise.all(metas.map(async meta => {
+    const markdownResponse = await fetch(`./blog/posts/${encodeURIComponent(meta.slug)}.md`);
+    const markdown = markdownResponse.ok ? await markdownResponse.text() : '';
+    const parsed = parseBlogMarkdown(markdown);
+    return {
+      title: meta.title || parsed.frontmatter.title || '',
+      date: meta.date || parsed.frontmatter.date || todayIsoDate(),
+      author: parsed.frontmatter.author || 'Om Sudhamsh',
+      excerpt: meta.excerpt || parsed.frontmatter.excerpt || '',
+      tags: normalizeTags(meta.tags || parsed.frontmatter.tags || []),
+      slug: meta.slug || slugify(meta.title),
+      readTime: meta.readTime || parsed.frontmatter.readTime || '4 min read',
+      body: parsed.body || BLOG_TEMPLATE
+    };
+  }));
+
+  saveStoredBlogPosts(posts);
+  return posts;
+}
+
+async function loadBlogPosts() {
+  const stored = loadStoredBlogPosts();
+  if (stored.length) return stored;
+  return loadPublishedBlogPosts();
+}
+
+function createBlogTemplate() {
+  return BLOG_TEMPLATE;
+}
+
 function listItem(label, meta, action, index, groupIndex = '') {
   return `
     <div class="admin-list-item">
@@ -79,6 +224,231 @@ function listItem(label, meta, action, index, groupIndex = '') {
       </button>
     </div>
   `;
+}
+
+function blogListItem(post, index) {
+  const meta = [post.author, post.date, post.readTime].filter(Boolean).join(' · ');
+  return `
+    <div class="admin-list-item blog-list-item">
+      <div class="admin-list-copy blog-list-copy">
+        <span>${escapeAdmin(post.title)}</span>
+        <small>${escapeAdmin(meta)}</small>
+        <small>${escapeAdmin(post.slug)}</small>
+      </div>
+      <div class="admin-item-actions">
+        <button class="edit-entry" type="button" data-blog-action="edit" data-index="${index}" aria-label="Edit ${escapeAdmin(post.title)}">
+          <i class="fas fa-pen"></i>
+        </button>
+        <button class="delete-entry" type="button" data-blog-action="delete" data-index="${index}" aria-label="Delete ${escapeAdmin(post.title)}">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function blogTemplateText() {
+  return createBlogTemplate();
+}
+
+function normalizeBlogPost(post = {}) {
+  return {
+    title: String(post.title ?? '').trim(),
+    slug: String(post.slug ?? '').trim() || slugify(post.title),
+    author: String(post.author ?? 'Om Sudhamsh').trim() || 'Om Sudhamsh',
+    date: String(post.date ?? todayIsoDate()).trim() || todayIsoDate(),
+    readTime: String(post.readTime ?? '4 min read').trim() || '4 min read',
+    excerpt: String(post.excerpt ?? '').trim(),
+    tags: normalizeTags(post.tags),
+    body: String(post.body ?? blogTemplateText()).trim() || blogTemplateText()
+  };
+}
+
+function getBlogEditorValue() {
+  return {
+    title: $('#blogTitle').value.trim(),
+    slug: $('#blogSlug').value.trim(),
+    author: $('#blogAuthor').value.trim(),
+    date: $('#blogDate').value,
+    readTime: $('#blogReadTime').value.trim(),
+    excerpt: $('#blogExcerpt').value.trim(),
+    tags: $('#blogTags').value.trim(),
+    body: $('#blogBody').value.trim()
+  };
+}
+
+function setBlogStatus(message, isError = false) {
+  const status = $('#blogStatus');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('error', isError);
+}
+
+function renderBlogList(posts = []) {
+  const list = $('#blogPostsList');
+  if (!list) return;
+  list.innerHTML = posts.length ? posts.map((post, index) => blogListItem(post, index)).join('') : '<p class="empty-list">No blog posts yet.</p>';
+}
+
+function writeBlogEditor(posts) {
+  const normalized = posts.map(normalizeBlogPost);
+  saveStoredBlogPosts(normalized);
+  renderBlogList(normalized);
+  setBlogStatus('Saved locally');
+  return normalized;
+}
+
+function fillBlogEditor(post, index = '') {
+  $('#blogEditingIndex').value = index;
+  $('#blogTitle').value = post.title || '';
+  $('#blogSlug').value = post.slug || slugify(post.title);
+  $('#blogAuthor').value = post.author || 'Om Sudhamsh';
+  $('#blogDate').value = post.date || todayIsoDate();
+  $('#blogReadTime').value = post.readTime || '4 min read';
+  $('#blogExcerpt').value = post.excerpt || '';
+  $('#blogTags').value = normalizeTags(post.tags).join(', ');
+  $('#blogBody').value = post.body || blogTemplateText();
+  $('#blogSaveBtn').textContent = index === '' ? 'Add Post' : 'Update Post';
+}
+
+function resetBlogEditor() {
+  $('#blogEditingIndex').value = '';
+  $('#blogTitle').value = '';
+  $('#blogSlug').value = '';
+  $('#blogAuthor').value = 'Om Sudhamsh';
+  $('#blogDate').value = todayIsoDate();
+  $('#blogReadTime').value = '4 min read';
+  $('#blogExcerpt').value = '';
+  $('#blogTags').value = '';
+  $('#blogBody').value = blogTemplateText();
+  $('#blogSaveBtn').textContent = 'Add Post';
+}
+
+function generateMarkdownFromEditor() {
+  const post = normalizeBlogPost(getBlogEditorValue());
+  return blogMarkdown(post);
+}
+
+function exportBlogJson(posts) {
+  const exportData = posts.map(({ body, ...meta }) => meta);
+  blogDownload('posts.json', JSON.stringify(exportData, null, 2), 'application/json');
+}
+
+function downloadCurrentMarkdown() {
+  const post = normalizeBlogPost(getBlogEditorValue());
+  if (!post.title || !post.slug) {
+    setBlogStatus('Fill title and slug before downloading.', true);
+    return;
+  }
+  blogDownload(`${post.slug}.md`, blogMarkdown(post));
+  setBlogStatus(`Downloaded ${post.slug}.md`);
+}
+
+async function loadBlogDashboard() {
+  const posts = await loadBlogPosts();
+  const normalized = posts.map(normalizeBlogPost);
+  if (!normalized.length) {
+    resetBlogEditor();
+    renderBlogList([]);
+    setBlogStatus('No published posts found');
+    return normalized;
+  }
+
+  renderBlogList(normalized);
+  fillBlogEditor(normalized[0], 0);
+  setBlogStatus('Loaded blog posts');
+  return normalized;
+}
+
+function saveCurrentBlogPost() {
+  const indexValue = $('#blogEditingIndex').value;
+  const post = normalizeBlogPost(getBlogEditorValue());
+
+  if (!post.title || !post.slug || !post.author || !post.excerpt || !post.body) {
+    setBlogStatus('Fill title, slug, author, excerpt, and body.', true);
+    return null;
+  }
+
+  const posts = loadStoredBlogPosts().map(normalizeBlogPost);
+  const currentIndex = indexValue === '' ? -1 : Number(indexValue);
+  if (currentIndex >= 0 && posts[currentIndex]) {
+    posts[currentIndex] = post;
+  } else {
+    const existingIndex = posts.findIndex(item => item.slug === post.slug);
+    if (existingIndex >= 0) {
+      posts[existingIndex] = post;
+    } else {
+      posts.push(post);
+    }
+  }
+
+  writeBlogEditor(posts);
+  fillBlogEditor(post, posts.findIndex(item => item.slug === post.slug));
+  return post;
+}
+
+function handleBlogListAction(event) {
+  const button = event.target.closest('[data-blog-action]');
+  if (!button) return;
+
+  const posts = loadStoredBlogPosts().map(normalizeBlogPost);
+  const index = Number(button.dataset.index);
+  const post = posts[index];
+  if (!post) return;
+
+  if (button.dataset.blogAction === 'edit') {
+    fillBlogEditor(post, index);
+    setBlogStatus(`Editing ${post.title}`);
+    return;
+  }
+
+  if (button.dataset.blogAction === 'delete') {
+    if (!confirm(`Delete ${post.title}?`)) return;
+    posts.splice(index, 1);
+    writeBlogEditor(posts);
+    resetBlogEditor();
+  }
+}
+
+async function importBlogMarkdown(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const markdown = await readFileAsText(file);
+  const parsed = parseBlogMarkdown(markdown);
+  const normalized = normalizeBlogPost({
+    title: parsed.frontmatter.title || file.name.replace(/\.[^.]+$/, '').replace(/-/g, ' '),
+    slug: parsed.frontmatter.slug || slugify(parsed.frontmatter.title || file.name),
+    author: parsed.frontmatter.author || 'Om Sudhamsh',
+    date: parsed.frontmatter.date || todayIsoDate(),
+    readTime: parsed.frontmatter.readTime || '4 min read',
+    excerpt: parsed.frontmatter.excerpt || '',
+    tags: parsed.frontmatter.tags || [],
+    body: parsed.body || blogTemplateText()
+  });
+
+  fillBlogEditor(normalized);
+  setBlogStatus(`Imported ${file.name}`);
+  event.target.value = '';
+}
+
+async function importBlogJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const content = await readFileAsText(file);
+    const posts = JSON.parse(content);
+    if (!Array.isArray(posts)) throw new Error('posts.json must contain an array');
+    const normalized = posts.map(normalizeBlogPost);
+    writeBlogEditor(normalized);
+    fillBlogEditor(normalized[0] || normalizeBlogPost(), normalized.length ? 0 : '');
+    setBlogStatus(`Imported ${file.name}`);
+  } catch (error) {
+    setBlogStatus(`Import failed: ${error.message}`, true);
+  }
+
+  event.target.value = '';
 }
 
 function renderDeleteLists(data = PortfolioCMS.getData()) {
@@ -256,6 +626,9 @@ function bindDashboard() {
   $('#draftrBody').value = PortfolioCMS.getData().draftr.body;
   $('#draftrUrl').value = PortfolioCMS.getData().draftr.url;
 
+  resetBlogEditor();
+  loadBlogDashboard();
+
   $('#saveJson').addEventListener('click', saveEditor);
   $('#previewSite').addEventListener('click', () => window.open('./index.html', '_blank', 'noopener'));
   $('#exportJson').addEventListener('click', () => downloadJson(getEditorData()));
@@ -289,6 +662,24 @@ function bindDashboard() {
   $('#certForm').addEventListener('submit', addCert);
   $('#draftrForm').addEventListener('submit', updateDraftr);
   $('#socialForm').addEventListener('submit', addSocial);
+  $('#blogForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const post = saveCurrentBlogPost();
+    if (post) setBlogStatus(`Saved ${post.title}`);
+  });
+  $('#blogTemplateBtn').addEventListener('click', () => {
+    $('#blogBody').value = blogTemplateText();
+    setBlogStatus('Template inserted');
+  });
+  $('#blogResetForm').addEventListener('click', () => {
+    resetBlogEditor();
+    setBlogStatus('New draft ready');
+  });
+  $('#blogDownloadMarkdown').addEventListener('click', downloadCurrentMarkdown);
+  $('#blogExportJson').addEventListener('click', () => exportBlogJson(loadStoredBlogPosts().map(normalizeBlogPost)));
+  $('#blogMarkdownImport').addEventListener('change', importBlogMarkdown);
+  $('#blogJsonImport').addEventListener('change', importBlogJson);
+  $('#blogPostsList').addEventListener('click', handleBlogListAction);
   $('.admin-dashboard').addEventListener('click', event => {
     const button = event.target.closest('.delete-entry');
     if (!button) return;

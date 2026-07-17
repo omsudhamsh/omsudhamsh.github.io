@@ -3,6 +3,103 @@
 // ============================================================
 const nav = document.getElementById('nav');
 const progressBar = document.getElementById('progressBar');
+const BLOG_STORAGE_KEY = 'portfolio-blog-posts-v1';
+
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[char]));
+}
+
+function formatDate(value){
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value ?? '');
+  return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+}
+
+function parseBlogMarkdown(markdown){
+  const match = String(markdown ?? '').match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const frontmatter = {};
+  let body = String(markdown ?? '').trim();
+
+  if (match){
+    body = match[2].trim();
+    match[1].split('\n').forEach(line => {
+      const separatorIndex = line.indexOf(':');
+      if (separatorIndex === -1) return;
+      const key = line.slice(0, separatorIndex).trim();
+      const value = line.slice(separatorIndex + 1).trim();
+      frontmatter[key] = value;
+    });
+  }
+
+  return { frontmatter, body };
+}
+
+function normalizeBlogPost(post = {}){
+  return {
+    title: String(post.title ?? '').trim(),
+    date: String(post.date ?? '').trim(),
+    author: String(post.author ?? 'Om Sudhamsh').trim() || 'Om Sudhamsh',
+    excerpt: String(post.excerpt ?? '').trim(),
+    tags: Array.isArray(post.tags) ? post.tags : String(post.tags ?? '').split(',').map(tag => tag.trim()).filter(Boolean),
+    slug: String(post.slug ?? '').trim(),
+    readTime: String(post.readTime ?? '4 min read').trim() || '4 min read',
+    body: String(post.body ?? '').trim()
+  };
+}
+
+function loadStoredBlogPosts(){
+  try {
+    const raw = localStorage.getItem(BLOG_STORAGE_KEY);
+    const posts = raw ? JSON.parse(raw) : [];
+    return Array.isArray(posts) ? posts.map(normalizeBlogPost) : [];
+  } catch (error) {
+    console.warn('Stored blog posts could not be read.', error);
+    return [];
+  }
+}
+
+function saveStoredBlogPosts(posts){
+  localStorage.setItem(BLOG_STORAGE_KEY, JSON.stringify(posts));
+}
+
+async function loadPublishedBlogPosts(){
+  const response = await fetch('./blog/posts.json');
+  if (!response.ok) throw new Error(`Blog index request failed: ${response.status}`);
+
+  const metas = await response.json();
+  if (!Array.isArray(metas)) return [];
+
+  const posts = await Promise.all(metas.map(async meta => {
+    const markdownResponse = await fetch(`./blog/posts/${encodeURIComponent(meta.slug)}.md`);
+    const markdown = markdownResponse.ok ? await markdownResponse.text() : '';
+    const parsed = parseBlogMarkdown(markdown);
+    return normalizeBlogPost({
+      title: meta.title || parsed.frontmatter.title || '',
+      date: meta.date || parsed.frontmatter.date || '',
+      author: parsed.frontmatter.author || 'Om Sudhamsh',
+      excerpt: meta.excerpt || parsed.frontmatter.excerpt || '',
+      tags: meta.tags || parsed.frontmatter.tags || [],
+      slug: meta.slug || '',
+      readTime: meta.readTime || parsed.frontmatter.readTime || '4 min read',
+      body: parsed.body || ''
+    });
+  }));
+
+  saveStoredBlogPosts(posts);
+  return posts;
+}
+
+async function loadBlogPosts(){
+  const stored = loadStoredBlogPosts();
+  if (stored.length) return stored;
+  return loadPublishedBlogPosts();
+}
 
 function onScroll(){
   const scrolled = window.scrollY;
@@ -54,6 +151,12 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold:0.15 });
 revealEls.forEach(el => revealObserver.observe(el));
+
+function observeRevealTargets(root){
+  root.querySelectorAll('.reveal').forEach(el => {
+    if (!el.classList.contains('in-view')) revealObserver.observe(el);
+  });
+}
 
 // ============================================================
 // HERO PHOTO COLOR SPOTLIGHT
@@ -173,6 +276,50 @@ document.querySelectorAll('.magnetic').forEach(el => {
     el.style.transform = '';
   });
 });
+
+// ============================================================
+// BLOG PREVIEWS
+// ============================================================
+const blogGrid = document.getElementById('blogGrid');
+
+async function renderBlogPreviews(){
+  if (!blogGrid) return;
+
+  try {
+    const previews = (await loadBlogPosts()).slice(0, 3);
+
+    blogGrid.innerHTML = previews.map(post => {
+      const tags = Array.isArray(post.tags) ? post.tags : [];
+      return `
+        <a class="work-card blog-card reveal" href="./blog/?post=${encodeURIComponent(post.slug)}">
+          <div class="work-num">${escapeHtml(formatDate(post.date))}</div>
+          <h3>${escapeHtml(post.title)}</h3>
+          <p>${escapeHtml(post.excerpt)}</p>
+          <div class="blog-meta">
+            <span>${escapeHtml(formatDate(post.date))}</span>
+            <span>${escapeHtml(post.author || 'Om Sudhamsh')}</span>
+            <span>${escapeHtml(post.readTime || '3 min read')}</span>
+          </div>
+          <div class="tag-row">
+            ${tags.map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    observeRevealTargets(blogGrid);
+  } catch (error) {
+    blogGrid.innerHTML = '<p class="section-line reveal in-view">Writing is loading right now.</p>';
+    console.warn('Blog previews could not be loaded.', error);
+  }
+}
+
+renderBlogPreviews();
+
+window.addEventListener('storage', event => {
+  if (event.key === BLOG_STORAGE_KEY) renderBlogPreviews();
+});
+window.addEventListener('blog:data-change', renderBlogPreviews);
 
 // ============================================================
 // FOOTER YEAR

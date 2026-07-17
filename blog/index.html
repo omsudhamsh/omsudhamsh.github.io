@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Om Sudhamsh</title>
+<meta name="description" content="Notes on static systems, RAG interfaces, and shipping work in public.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="./blog.css">
+</head>
+<body class="blog-page">
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="nav" id="nav">
+  <a href="../index.html#hero" class="nav-logo">OS<span>.</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="../index.html#work" data-nav>Work</a>
+    <a href="../index.html#gallery" data-nav>Gallery</a>
+    <a href="../index.html#draftr" data-nav>Draftr</a>
+    <a href="./" data-nav>Blog</a>
+    <a href="../index.html#contact" data-nav>Contact</a>
+  </div>
+  <a href="../index.html#contact" class="nav-cta">Say Hi</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-controls="mobileMenu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#work" data-nav>Work</a>
+  <a href="../index.html#gallery" data-nav>Gallery</a>
+  <a href="../index.html#draftr" data-nav>Draftr</a>
+  <a href="./" data-nav>Blog</a>
+  <a href="../index.html#contact" data-nav>Contact</a>
+</div>
+
+<main class="blog-shell">
+  <section class="section blog-hero">
+    <p class="eyebrow reveal">WRITING</p>
+    <h1 class="blog-title reveal">Blog</h1>
+    <p class="section-line reveal">Notes on static systems, RAG interfaces, and shipping work in public.</p>
+  </section>
+
+  <section class="blog-layout">
+    <div class="blog-list-header reveal">
+      <p class="eyebrow">ALL POSTS</p>
+      <h2 class="section-title">Latest writing</h2>
+    </div>
+    <div class="blog-grid reveal" id="blogGrid" aria-live="polite"></div>
+
+    <article class="blog-post reveal" id="postShell" hidden>
+      <a href="./" class="blog-back-link"><i class="fas fa-arrow-left"></i> Back to blog</a>
+      <p class="eyebrow">POST</p>
+      <h2 id="postTitle" class="blog-post-title"></h2>
+      <div class="blog-post-meta" id="postMeta"></div>
+      <div class="tag-row blog-tag-row" id="postTags"></div>
+      <div class="blog-post-body" id="postBody"></div>
+    </article>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="./blog.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Static Content Systems for Small Sites",
+    "date": "2026-07-08",
+    "excerpt": "How I keep a portfolio lightweight, editable, and GitHub Pages-friendly without a backend.",
+    "tags": ["Static Site", "GitHub Pages", "Content"],
+    "slug": "static-content-systems",
+    "readTime": "4 min read"
+  },
+  {
+    "title": "Designing Interfaces Around RAG",
+    "date": "2026-06-18",
+    "excerpt": "A few patterns that make retrieval-first products feel clear instead of noisy.",
+    "tags": ["RAG", "UX", "LLMs"],
+    "slug": "designing-interfaces-around-rag",
+    "readTime": "5 min read"
+  },
+  {
+    "title": "Why I Keep Writing While Building",
+    "date": "2026-05-24",
+    "excerpt": "Short notes help me ship more consistently than a perfect doc ever could.",
+    "tags": ["Writing", "Workflow", "Shipping"],
+    "slug": "writing-while-building",
+    "readTime": "3 min read"
+  }
+]

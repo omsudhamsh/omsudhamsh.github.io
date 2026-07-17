@@ -745,6 +745,31 @@ button{ font-family:inherit; background:none; border:none; color:inherit; cursor
   tab-size:2;
 }
 
+.blog-actions{ margin-bottom:18px; }
+.blog-inline-actions{ margin-top:6px; }
+.blog-admin-grid{ margin-bottom:18px; }
+.admin-item-actions{ display:flex; align-items:center; gap:8px; }
+.edit-entry{
+  width:38px;
+  height:38px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  color:var(--ink-dim);
+  display:grid;
+  place-items:center;
+  transition:border-color .25s var(--ease), color .25s var(--ease), background .25s var(--ease);
+}
+.edit-entry:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:rgba(223,255,91,.08);
+}
+.blog-list-item{ grid-template-columns:minmax(0, 1fr) auto; }
+.blog-list-copy small{
+  display:block;
+  max-width:100%;
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */

@@ -26,7 +26,7 @@
     <section class="admin-hero">
       <p class="eyebrow">PRIVATE CMS</p>
       <h1>Portfolio Admin</h1>
-      <p>Signed-in admin can update profile photo, resume, skills, stack, projects, Draftr, gallery, certs, experience, education, socials, and raw content JSON.</p>
+      <p>Signed-in admin can update profile photo, resume, skills, stack, projects, Draftr, gallery, certs, experience, socials, blog posts, and raw content JSON.</p>
     </section>
 
     <section id="clerkConfigNotice" class="admin-panel admin-warning" hidden>
@@ -128,6 +128,56 @@
           </form>
         </section>
       </div>
+
+      <section class="admin-panel">
+        <div class="json-head">
+          <div>
+            <h2>Blog Posts</h2>
+            <p>Create, edit, import, and export Markdown posts for the static Blog section. Drafts stay in this browser until you export them into <code>blog/posts.json</code> and <code>blog/posts/*.md</code>.</p>
+          </div>
+          <span id="blogStatus" class="admin-status">Local draft</span>
+        </div>
+
+        <div class="admin-actions blog-actions">
+          <button id="blogExportJson" class="admin-btn" type="button"><i class="fas fa-download"></i> Export posts.json</button>
+          <button id="blogDownloadMarkdown" class="admin-btn" type="button"><i class="fas fa-file-arrow-down"></i> Download .md</button>
+          <label class="admin-btn file-btn">
+            <i class="fas fa-upload"></i> Import Markdown
+            <input id="blogMarkdownImport" type="file" accept=".md,.markdown,text/markdown">
+          </label>
+          <label class="admin-btn file-btn">
+            <i class="fas fa-upload"></i> Import posts.json
+            <input id="blogJsonImport" type="file" accept="application/json">
+          </label>
+          <button id="blogResetForm" class="admin-btn" type="button"><i class="fas fa-rotate-left"></i> New Draft</button>
+        </div>
+
+        <div class="admin-grid blog-admin-grid">
+          <form id="blogForm" class="admin-form">
+            <input id="blogEditingIndex" type="hidden" value="">
+            <h3>Post Editor</h3>
+            <input id="blogTitle" type="text" placeholder="[Title]" required>
+            <input id="blogSlug" type="text" placeholder="professional-medium-post-title" required>
+            <input id="blogAuthor" type="text" placeholder="[Author]" required>
+            <input id="blogDate" type="date" required>
+            <input id="blogReadTime" type="text" placeholder="4 min read">
+            <input id="blogExcerpt" type="text" placeholder="One-to-two line summary of the post" required>
+            <input id="blogTags" type="text" placeholder="Static Site, RAG, Writing" required>
+            <label>Markdown body
+              <textarea id="blogBody" placeholder="# [Title]\n\n_By [Author] · [Date]_\n\n## Context\n[Body]\n\n## Challenge\nDescribe the problem, blockers, or decisions.\n\n## What changed\nOutline the approach, fix, or implementation.\n\n## Takeaways\nSummarize the lesson you want to remember."></textarea>
+            </label>
+            <div class="admin-actions blog-inline-actions">
+              <button class="admin-btn primary" id="blogSaveBtn" type="submit">Add Post</button>
+              <button class="admin-btn" id="blogTemplateBtn" type="button">Use Template</button>
+            </div>
+          </form>
+
+          <div>
+            <h3>Blog Library</h3>
+            <div id="blogPostsList" class="admin-list"></div>
+          </div>
+        </div>
+      </section>
 
       <section class="admin-panel">
         <div class="json-head">
