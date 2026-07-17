@@ -75,20 +75,15 @@ async function loadPublishedBlogPosts(){
   const metas = await response.json();
   if (!Array.isArray(metas)) return [];
 
-  const posts = await Promise.all(metas.map(async meta => {
-    const markdownResponse = await fetch(`./blog/posts/${encodeURIComponent(meta.slug)}.md?v=${Date.now()}`, { cache: 'no-store' });
-    const markdown = markdownResponse.ok ? await markdownResponse.text() : '';
-    const parsed = parseBlogMarkdown(markdown);
-    return normalizeBlogPost({
-      title: meta.title || parsed.frontmatter.title || '',
-      date: meta.date || parsed.frontmatter.date || '',
-      author: parsed.frontmatter.author || 'Om Sudhamsh',
-      excerpt: meta.excerpt || parsed.frontmatter.excerpt || '',
-      tags: meta.tags || parsed.frontmatter.tags || [],
-      slug: meta.slug || '',
-      readTime: meta.readTime || parsed.frontmatter.readTime || '4 min read',
-      body: parsed.body || ''
-    });
+  const posts = metas.map(meta => normalizeBlogPost({
+    title: meta.title || '',
+    date: meta.date || '',
+    author: meta.author || 'Om Sudhamsh',
+    excerpt: meta.excerpt || '',
+    tags: meta.tags || [],
+    slug: meta.slug || '',
+    readTime: meta.readTime || '4 min read',
+    body: meta.body || ''
   }));
 
   saveStoredBlogPosts(posts);
